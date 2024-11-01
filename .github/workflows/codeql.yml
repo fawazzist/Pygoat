@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v2
         with:
           languages: python
 
@@ -31,6 +31,6 @@ jobs:
         run: codeql database analyze codeql-db --format=sarif-latest --output=results.sarif
 
       - name: Upload CodeQL results
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: results.sarif
