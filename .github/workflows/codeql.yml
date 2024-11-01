@@ -20,17 +20,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up CodeQL
-        uses: github/codeql-action/setup@v2
+        uses: github/codeql-action/init@v1
         with:
-          languages: python  # Specify the language you want to analyze
+          languages: python
 
-      - name: Initialize the CodeQL database
+      - name: Build database
         run: codeql database create codeql-db --language=python
 
       - name: Perform CodeQL analysis
         run: codeql database analyze codeql-db --format=sarif-latest --output=results.sarif
 
       - name: Upload CodeQL results
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: results.sarif
