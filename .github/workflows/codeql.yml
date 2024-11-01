@@ -15,6 +15,9 @@ jobs:
       contents: read
       security-events: write
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
