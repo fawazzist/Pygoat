@@ -952,12 +952,25 @@ def ssrf_lab2(request):
 
     elif request.method == "POST":
         url = request.POST["url"]
+        from urllib.parse import urlparse
+
         allowed_urls = [
             "https://example.com/resource",
             "https://another-allowed-domain.com/resource"
         ]
+
+        def is_url_allowed(url, allowed_urls):
+            parsed_url = urlparse(url)
+            for allowed_url in allowed_urls:
+                parsed_allowed_url = urlparse(allowed_url)
+                if (parsed_url.scheme == parsed_allowed_url.scheme and
+                    parsed_url.netloc == parsed_allowed_url.netloc and
+                    parsed_url.path == parsed_allowed_url.path):
+                    return True
+            return False
+
         try:
-            if url in allowed_urls:
+            if is_url_allowed(url, allowed_urls):
                 response = requests.get(url)
                 return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
             else:
