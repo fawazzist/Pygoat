@@ -952,9 +952,14 @@ def ssrf_lab2(request):
 
     elif request.method == "POST":
         url = request.POST["url"]
+        allowed_domains = ["example.com", "another-allowed-domain.com"]
         try:
-            response = requests.get(url)
-            return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
+            parsed_url = requests.utils.urlparse(url)
+            if parsed_url.hostname in allowed_domains:
+                response = requests.get(url)
+                return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
+            else:
+                return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Domain not allowed"})
         except:
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Invalid URL"})
 #--------------------------------------- Server-side template injection --------------------------------------#
